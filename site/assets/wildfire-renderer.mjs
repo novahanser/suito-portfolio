@@ -10,7 +10,7 @@ void main() { v_uv = a_position * .5 + .5; gl_Position = vec4(a_position,0.,1.);
 const fragmentSource = `
 precision highp float;
 varying vec2 v_uv;
-uniform sampler2D u_forest, u_charred, u_art, u_fireTex, u_noise;
+uniform sampler2D u_forest, u_charred, u_art, u_fireTex, u_noise, u_characterMask;
 uniform vec2 u_view, u_backgroundRatios;
 uniform float u_time, u_char, u_heat, u_fire, u_sceneMode, u_artPosition;
 
@@ -62,10 +62,19 @@ void main() {
   float strength = u_fire / .82;
   float height = .13 + .29 * strength;
   float edge = .72 + .28 * pow(abs(uv.x - .5) * 2., 1.3);
+  vec2 sceneUV = cover(uv, u_view, 2520. / 1080., u_artPosition);
+  vec2 protection = vec2(0.);
+  vec3 protectedScene = vec3(0.);
+  if (u_sceneMode > .5) {
+    // The mask is registered to the uncropped artwork. It shares exactly the
+    // artwork's cover/position mapping on desktop and portrait screens.
+    protection = texture2D(u_characterMask,sceneUV).rg;
+  }
   vec2 hotUV = uv;
   if (uv.y < height + .35) {
     float shimmer = 1. - smoothstep(height * .55, height + .35, uv.y);
     shimmer *= u_heat * (.4 + .6 * fbm(vec2(p.x * 8., p.y * 4. - u_time * .6)));
+    shimmer *= 1. - protection.g;
     vec2 waves = vec2(
       fbm(vec2(p.x * 25., p.y * 9. - u_time * 2.2)) - .5,
       fbm(vec2(p.x * 19. + 73., p.y * 13. - u_time * 1.8)) - .5
@@ -84,8 +93,11 @@ void main() {
   // The canvas lives inside the chapter background while that chapter is visible.
   // Browser compositing scrolls the image; the 30 fps shader only animates local heat.
   if (u_sceneMode > .5) {
-    vec2 sceneUV = cover(hotUV, u_view, 2520. / 1080., u_artPosition);
-    vec3 art = texture2D(u_art,clamp(sceneUV,.001,.999)).rgb;
+    vec2 hotSceneUV = cover(hotUV, u_view, 2520. / 1080., u_artPosition);
+    vec3 art = texture2D(u_art,clamp(hotSceneUV,.001,.999)).rgb;
+    // Only the original background texture supplies colour. The supplied
+    // cutout contributes coverage data and is never drawn as a second image.
+    protectedScene = mix(background,texture2D(u_art,clamp(sceneUV,.001,.999)).rgb,.88);
     background = mix(background, art, .88);
   }
 
@@ -102,6 +114,7 @@ void main() {
     background = mix(background,front.rgb,front.a * emission * .8);
   }
   if (uv.y < .95) background += vec3(1.,.39,.065) * sparks(uv,u_time) * strength * .85;
+  background = mix(background,protectedScene,protection.r);
   gl_FragColor = vec4(background,1.);
 }
 `;
@@ -116,11 +129,13 @@ export function renderBudget(width, height, compact = false, low = false) {
 
 export async function createWildfireRenderer({world, passage, asset, compact, onFailure}) {
   const chapterBackground = passage.querySelector('[data-background-art]');
+  const characterMaskURL = chapterBackground?.dataset.characterMask;
   const sceneSurface = chapterBackground?.parentElement;
   if (world.dataset.effectLayer !== 'background' || !chapterBackground) throw new Error('Missing background layer');
   const canvas = document.createElement('canvas');
   canvas.className = 'wildfire-canvas';
   canvas.dataset.effectLayer = 'background';
+  canvas.dataset.characterMask = characterMaskURL ? 'enabled' : 'none';
   canvas.setAttribute('aria-hidden','true');
   canvas.hidden = true;
   world.insertBefore(canvas, world.querySelector('.atmo-vignette'));
@@ -202,7 +217,7 @@ export async function createWildfireRenderer({world, passage, asset, compact, on
     buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
-    for (const name of ['view','backgroundRatios','time','char','heat','fire','sceneMode','artPosition','forest','charred','art','fireTex','noise']) {
+    for (const name of ['view','backgroundRatios','time','char','heat','fire','sceneMode','artPosition','forest','charred','art','fireTex','noise','characterMask']) {
       uniforms[name] = gl.getUniformLocation(program,'u_'+name);
     }
     const size = compact()?1024:1600;
@@ -210,10 +225,14 @@ export async function createWildfireRenderer({world, passage, asset, compact, on
       load(world.querySelector('.atmo-forest').currentSrc || asset('spring-forest-day-'+size+'.webp','game-backgrounds')),
       load(asset('suito-casting-background-'+size+'.webp','game-backgrounds')),
       load(chapterBackground.currentSrc || asset('cg_conflict_fire-'+size+'.webp')),
-      load(asset('effect_fire-512.webp'))
+      load(asset('effect_fire-512.webp')),
+      characterMaskURL ? load(new URL(characterMaskURL,document.baseURI).href) : Promise.resolve(null)
     ]);
     if (contextLost) throw new Error('Context lost during asset loading');
-    images.forEach((image,i) => texture(i<3?softenBackground(image):image,i,i===3));
+    images.slice(0,4).forEach((image,i) => texture(i<3?softenBackground(image):image,i,i===3));
+    const neutralMask = document.createElement('canvas');
+    neutralMask.width = neutralMask.height = 1;
+    texture(images[4] || neutralMask,5);
     gl.uniform2f(uniforms.backgroundRatios,images[0].naturalWidth/images[0].naturalHeight,images[1].naturalWidth/images[1].naturalHeight);
     // One deterministic 256px noise texture; no image downloads or per-frame CPU noise.
     const data = new Uint8Array(256*256*4);
@@ -229,7 +248,7 @@ export async function createWildfireRenderer({world, passage, asset, compact, on
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.REPEAT);
-    ['forest','charred','art','fireTex','noise'].forEach((name,i) => gl.uniform1i(uniforms[name],i));
+    ['forest','charred','art','fireTex','noise','characterMask'].forEach((name,i) => gl.uniform1i(uniforms[name],i));
     gl.uniform1f(uniforms.sceneMode,0);
   } catch (error) { release(); canvas.remove(); throw error; }
 

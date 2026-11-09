@@ -10,5 +10,7 @@
 .credits>.chapter-environment{opacity:.18}
 .credits>.chapter-environment::after{background:linear-gradient(180deg,var(--deep),transparent 65%,var(--deep))}
 .credit-text .environment-credit{font-size:12px;line-height:1.8;color:var(--muted);margin-top:20px;max-width:60ch}
+/* The static/reduced-motion fallback also shields the people from world effects. */
+.wildfire-chapter[data-character-mask]{opacity:1}
 @media(max-width:660px){.ui-chapters .hero{background:linear-gradient(90deg,#0b241ee6,#0b241ea6)}.chapter-environment{opacity:.16}}
 @media print{.chapter-environment{display:none}}

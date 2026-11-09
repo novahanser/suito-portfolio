@@ -4,7 +4,7 @@ Howard Xu's independent Rotaeno fan music-video portfolio.
 
 **Website:** https://novahanser.github.io/suito-portfolio/
 
-The site contains the final C1 film, an eight-stage production journal, image previews, critical reflection and credits. C2 and C3 remain in development.
+The site presents the final C1 film in a YouTube viewing layout, a 32-second 3:4 teaser and a 4:5 promotional image in Instagram post layouts. It includes an eight-stage C1 production journal with 23 figures, image previews, a 669-word critical reflection and credits. Platform interactions are local previews. No social audience metrics or account identities are fabricated.
 
 ## Structure
 
@@ -27,7 +27,7 @@ The preview address is printed in the terminal. The server supports video byte r
 
 ## Updates
 
-Edit the website in `site/`, run `npm run build`, then commit and push to `main`. GitHub Actions validates the site, uploads the static artifact and deploys it to Pages. Pull requests run the build without publishing.
+Prepare and check changes locally. Commit or publish only when explicitly requested by the owner. For an approved release, run `npm run build`, review the intended changes, then commit and push to `main`. GitHub Actions validates the site, uploads the static artifact and deploys it to Pages. Pull requests run the build without publishing.
 
 The authoring workspace also retains a C-only export script at `web-portfolio/.tools/prepare-github-release.py`; it synchronises the current local C page and its actual dependencies into this checkout. Original project files, research libraries and design comparisons stay in the authoring workspace.
 

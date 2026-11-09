@@ -65,8 +65,14 @@ function selectChapter(index, animate = false) {
     {opacity:1,transform:'translateX(0)'}
   ]);
 }
+function rememberWork(index) {
+  history.replaceState(history.state, '', '#' + panels[index].id);
+}
 tabs.forEach((tab, index) => {
-  tab.addEventListener('click', event => selectChapter(index, event.detail > 0));
+  tab.addEventListener('click', event => {
+    selectChapter(index, event.detail > 0);
+    rememberWork(index);
+  });
   tab.addEventListener('keydown', event => {
     const offsets = {ArrowLeft:-1,ArrowRight:1,ArrowUp:-1,ArrowDown:1};
     let next;
@@ -74,10 +80,30 @@ tabs.forEach((tab, index) => {
     else if (event.key === 'Home') next = 0;
     else if (event.key === 'End') next = tabs.length - 1;
     else return;
-    event.preventDefault(); selectChapter(next); tabs[next].focus({preventScroll:true});
+    event.preventDefault(); selectChapter(next); rememberWork(next); tabs[next].focus({preventScroll:true});
   });
 });
 selectChapter(0);
+
+// Work links open their tab before the browser follows the section anchor.
+function selectWorkFromHash() {
+  let id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+  const panel = document.getElementById(id)?.closest('.work-panel');
+  const index = panels.indexOf(panel);
+  if (index >= 0) selectChapter(index);
+}
+selectWorkFromHash();
+window.addEventListener('hashchange', selectWorkFromHash);
+document.querySelectorAll('[data-work-target]').forEach(link => {
+  link.addEventListener('click', event => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const index = panels.findIndex(panel => panel.id === link.dataset.workTarget);
+    if (index < 0) return;
+    selectChapter(index);
+    panels[index].focus({preventScroll:true});
+  });
+});
 document.querySelector('.chapter-panels').dataset.enhanced = 'true';
 rail.hidden = false;
 
@@ -95,35 +121,6 @@ if (location.hash) {
     document.getElementById(id)?.scrollIntoView({behavior:'instant',block:'start'});
   }));
 }
-
-const dialog = document.querySelector('#placement-dialog');
-const placements = {
-  teaser: ['The short teaser', 'This 9:16 space is reserved for the completed vertical teaser. Its final video, poster frame, duration and captions will be added here, with an Instagram Reels link if published.'],
-  identity: ['The promotional artwork', 'This 4:5 space is reserved for the finished student promotional design. The final artwork, alternative text and an Instagram post link can be added when available.']
-};
-document.querySelectorAll('[data-placement]').forEach(button => {
-  button.addEventListener('click', event => {
-    const [title, description] = placements[button.dataset.placement];
-    dialog.querySelector('#dialog-title').textContent = title;
-    dialog.querySelector('#dialog-description').textContent = description;
-    dialog.showModal();
-    if (event.detail > 0) motion(dialog,[{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'scale(1)'}]);
-  });
-});
-function closeDialog(animate = true) {
-  if (!dialog.open) return;
-  if (animate && canMove()) motion(dialog,[{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.97)'}],{duration:140},()=>dialog.close());
-  else dialog.close();
-}
-dialog.querySelector('form').addEventListener('submit', event => { event.preventDefault(); closeDialog(); });
-dialog.addEventListener('click', event => {
-  if (event.target !== dialog) return;
-  const box = dialog.getBoundingClientRect();
-  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) closeDialog();
-});
-dialog.addEventListener('close', () => {
-  for (const animation of active) if (animation.effect?.target === dialog) animation.cancel();
-});
 
 const menu = document.querySelector('.mobile-menu');
 menu.addEventListener('toggle', () => {

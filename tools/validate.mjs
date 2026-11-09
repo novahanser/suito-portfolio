@@ -23,7 +23,7 @@ export async function validate(folder){
     if(/(?:[A-Z]:[\\/](?:Users|download)|file:\/\/|127\.0\.0\.1|localhost:)/.test(text))throw new Error('Local-only path in public file: '+path.relative(root,file));
     let refs=[];
     if(file.endsWith('.html')){
-      refs.push(...[...text.matchAll(/\b(?:src|href|poster|data-preview-src)=["']([^"']+)["']/g)].map(m=>m[1]));
+      refs.push(...[...text.matchAll(/\b(?:src|href|poster|data-preview-src|data-character-mask)=["']([^"']+)["']/g)].map(m=>m[1]));
       for(const match of text.matchAll(/\bsrcset=["']([^"']+)["']/g))refs.push(...match[1].split(',').map(s=>s.trim().split(/\s+/)[0]));
       const ids=[...text.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]);
       if(new Set(ids).size!==ids.length)throw new Error('Duplicate HTML ID: '+file);

@@ -85,7 +85,7 @@ img{display:block;max-width:100%;height:auto}
 .work-note{display:block;font-size:14px;color:var(--muted);margin-top:14px}
 .work-caption{font-size:13px;color:var(--muted);margin-top:28px;max-width:75ch}
 .portrait-stage{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,8vw,120px);align-items:center;min-height:520px;padding:40px 10%;background:var(--surface)}
-.teaser-well{aspect-ratio:9/16;width:100%;max-width:310px;justify-self:center}
+.teaser-well{aspect-ratio:3/4;width:100%;max-width:360px;justify-self:center}
 .teaser-well>img{object-position:57% center;position:absolute;inset:0}
 .teaser-well .media-placeholder{padding:22px;padding-top:80px}
 .portrait-copy h3{font-size:clamp(42px,5.2vw,76px)}
