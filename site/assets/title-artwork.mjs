@@ -1,4 +1,4 @@
-// Shared C-version title artwork: hero, navigation and footer.
+// C-version title artwork for the hero and footer. Navigation uses regular text.
 // Path is relative to this module, e.g. './title/cuidu-title.svg'. Leave empty for text placeholders.
 export const titleArtworkSource = './brand/cuidu-wordmark.svg';
 
