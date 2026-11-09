@@ -46,10 +46,10 @@
 .evidence-links a,.reference-access a{display:inline-flex;align-items:center;min-height:44px}
 .evidence-note{font-size:13px!important;margin-top:18px;color:#465c4a}
 .evidence-pending{padding-left:20px;font-size:15px;line-height:1.75}.evidence-pending li+li{margin-top:12px}
-.reflection-reading{grid-template-columns:minmax(130px,.3fr) minmax(0,1fr);gap:clamp(32px,5vw,80px)}
+.reflection-reading{grid-template-columns:minmax(130px,.3fr) minmax(0,1fr);gap:clamp(28px,4vw,64px)}
 .reflection-meta{font-size:13px;color:#40563f;position:sticky;top:112px;align-self:start;max-width:24ch}
 .reflection-meta p+p{margin-top:24px}.reflection-meta>a{display:inline-block;margin-top:22px;padding-block:8px}
-.reflection-copy{max-width:68ch;justify-self:center}
+.reflection-copy{max-width:76ch;justify-self:center}
 .reflection-essay{font:17px/1.85 var(--body)}
 .reflection-essay>p{max-width:none}.reflection-essay>p+p{margin-top:1.6em}
 .academic-references{border-top:1px solid #68796155;margin-top:32px;padding-top:24px;scroll-margin-top:104px}
@@ -70,11 +70,11 @@
 .next-steps{padding-left:24px;margin:8px 0 28px;max-width:80ch;font-size:15px}.next-steps li+li{margin-top:18px}
 @media(min-width:1440px){.reflection-essay{font-size:18px}}
 @media(max-width:1000px){.work-info{gap:32px}.project-overview{grid-template-columns:.7fr 1.3fr}.reflection-reading{grid-template-columns:145px minmax(0,1fr)}}
-@media(max-width:800px){.reflection-reading{grid-template-columns:1fr}.reflection-meta{position:static;display:flex;flex-wrap:wrap;align-items:start;gap:16px 28px;max-width:none;border-bottom:1px solid #68796144;padding-bottom:24px}.reflection-meta p+p,.reflection-meta>a{margin:0}.reflection-meta>a{padding:0}.reflection-meta .eyebrow{width:100%}.reflection-copy{max-width:68ch}.media-status>span:last-child{margin-left:0}}
+@media(max-width:800px){.reflection-reading{grid-template-columns:1fr}.reflection-meta{position:static;display:flex;flex-wrap:wrap;align-items:start;gap:16px 28px;max-width:none;border-bottom:1px solid #68796144;padding-bottom:24px}.reflection-meta p+p,.reflection-meta>a{margin:0}.reflection-meta>a{padding:0}.reflection-meta .eyebrow{width:100%}.reflection-copy{max-width:76ch}.media-status>span:last-child{margin-left:0}}
 @media(max-width:660px){
   .project-overview{grid-template-columns:1fr;gap:28px;padding-block:36px 44px}.project-overview h2{font-size:38px;max-width:none;margin-top:12px}.overview-date{margin-top:16px}.overview-copy{font-size:15px}.overview-copy p+p{margin-top:18px}
   .media-status{gap:8px 20px;font-size:12px;padding:14px 0}.media-status>span:last-child{width:100%}.work-info{gap:20px}.work-description{font-size:15px}.text-link{margin-top:10px}.work-notes{margin-top:26px}.work-notes summary{font-size:15px;gap:12px;min-height:68px}.work-notes-body{font-size:15px}.media-facts{grid-template-columns:1fr;gap:20px}.media-facts dd{margin-top:6px}.platform-caption{padding:18px;font-size:14px}.plan-columns{grid-template-columns:1fr;gap:32px}.edit-plan li{gap:12px;grid-template-columns:58px 1fr}
   .evidence-figure figcaption{font-size:12px}.evidence-full{font-size:12px}.content-table{font-size:13px;min-width:510px}.content-table th,.content-table td{padding:12px}.prompt-excerpt{padding:16px;font-size:14px}.evidence-links{gap:2px 16px}
-  .reflection-paper{padding:28px 22px}.reflection-reading{gap:28px}.reflection-meta{font-size:12px;gap:16px 20px}.reflection-essay{font-size:16px;line-height:1.85}.reflection-essay>p+p{margin-top:1.5em}.academic-references{margin-top:28px;padding-top:22px}.academic-references ol{font-size:13px;line-height:1.65;margin-top:18px}.academic-references li{padding-left:16px;text-indent:-16px}.academic-references li+li{margin-top:10px}.academic-references h3{font-size:29px}.reference-access{font-size:12px}
+  .reflection-paper{padding:28px 18px}.reflection-reading{gap:28px}.reflection-meta{font-size:12px;gap:16px 20px}.reflection-essay{font-size:16px;line-height:1.85}.reflection-essay>p+p{margin-top:1.5em}.academic-references{margin-top:28px;padding-top:22px}.academic-references ol{font-size:13px;line-height:1.65;margin-top:18px}.academic-references li{padding-left:16px;text-indent:-16px}.academic-references li+li{margin-top:10px}.academic-references h3{font-size:29px}.reference-access{font-size:12px}
   .credit-records{margin-top:32px}.ai-disclosure{grid-template-columns:1fr;gap:20px;padding:32px 0}.ai-disclosure p{font-size:14px}.credit-records .content-table{min-width:640px}.next-steps{font-size:14px}
 }

@@ -4,7 +4,7 @@ Howard Xu's independent Rotaeno fan music-video portfolio.
 
 **Website:** https://novahanser.github.io/suito-portfolio/
 
-The site presents the final C1 film in a YouTube viewing layout, a 32-second 3:4 teaser and a 4:5 promotional image in Instagram post layouts. It includes an eight-stage C1 production journal with 23 figures, image previews, a 669-word critical reflection and credits. Platform interactions are local previews. No social audience metrics or account identities are fabricated.
+The site presents the final C1 film in a YouTube viewing layout, a 32-second 3:4 teaser and a 4:5 promotional image in Instagram post layouts. It includes an eight-stage C1 production journal with 23 figures, image previews, a 706-word critical reflection and credits. Platform interactions are local previews. No social audience metrics or account identities are fabricated.
 
 ## Structure
 
