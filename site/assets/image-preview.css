@@ -1,0 +1,33 @@
+/* C only: on-demand image previews above the page and its background effects. */
+html{scrollbar-gutter:stable}
+html.image-preview-open{overflow:hidden}
+[data-image-preview]{cursor:zoom-in}
+.hero-art-window[data-image-preview]{display:block}
+.media-image-preview{position:absolute;inset:0;z-index:2;width:100%;height:100%;border:0;padding:0;background:transparent;color:var(--ink);text-align:right}
+.media-image-preview>span{position:absolute;top:12px;right:12px;padding:7px 10px;background:var(--paper);font:500 11px/1.5 var(--body)}
+.media-image-preview:focus-visible{outline-offset:-5px}
+#image-preview{position:fixed;inset:0;margin:auto;width:min(1440px,calc(100% - 48px));max-width:none;height:fit-content;max-height:calc(100dvh - 48px);padding:0;border:1px solid #ceb9a84d;background:#181917;color:#f2eee5;overflow:hidden;box-shadow:0 24px 90px #0008}
+#image-preview[open]{display:flex;flex-direction:column}
+#image-preview::backdrop{background:#080b09e6}
+#image-preview .preview-toolbar{display:flex;flex:none;align-items:center;justify-content:space-between;gap:24px;padding:18px 24px;border-bottom:1px solid #ceb9a833}
+#image-preview .preview-heading{min-width:0}
+#image-preview .preview-kicker{font:500 10px/1.5 var(--body);letter-spacing:.12em;text-transform:uppercase;color:#c5b8a9;margin-bottom:4px}
+#image-preview h2{margin:0;font:400 clamp(21px,2.1vw,30px)/1.2 var(--display);letter-spacing:0;text-wrap:balance;overflow-wrap:anywhere}
+#image-preview .preview-controls{display:flex;gap:8px;flex-shrink:0}
+#image-preview button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;border:1px solid #ceb9a866;padding:9px 14px;background:transparent;color:inherit;font:500 12px/1.3 var(--body)}
+#image-preview button:disabled{opacity:.4;cursor:default}
+#image-preview .preview-close{background:#ebe7db;color:#241c19;border-color:#ebe7db}
+#image-preview .preview-close>span{font:26px/1 var(--body)}
+#image-preview :focus-visible{outline:2px solid #e5c5ac;outline-offset:3px}
+#image-preview .preview-stage{position:relative;flex:0 1 auto;aspect-ratio:var(--preview-ratio,16 / 9);max-height:calc(100dvh - 220px);min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;background:#20231f;padding:16px;scroll-behavior:auto}
+#image-preview[data-zoomed=true]{height:calc(100dvh - 48px)}
+#image-preview[data-zoomed=true] .preview-stage{flex:1;aspect-ratio:auto;max-height:none}
+#image-preview[data-surface=paper] .preview-stage{background:#eeece5}
+#image-preview .preview-image{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;margin:0 auto}
+#image-preview[data-zoomed=true] .preview-image{width:var(--preview-natural-width);height:auto;max-width:none;max-height:none;margin:0}
+#image-preview .preview-status{position:absolute;top:50%;left:20px;right:20px;transform:translateY(-50%);text-align:center;max-width:none;font:14px/1.6 var(--body);color:#d9d5ca}
+#image-preview .preview-caption{flex:none;max-height:24%;overflow:auto;margin:0;padding:14px 24px;border-top:1px solid #ceb9a833;font:12px/1.7 var(--body);color:#ccc5b9;overscroll-behavior:contain}
+@media(hover:hover){#image-preview button:not(:disabled):hover{border-color:#e5c5ac;background:#3b3029}#image-preview .preview-close:hover{background:#f8f2e5;color:#241c19}}
+@media(max-width:660px){#image-preview{width:calc(100% - 20px);max-height:calc(100dvh - 24px)}#image-preview[data-zoomed=true]{height:calc(100dvh - 24px)}#image-preview .preview-toolbar{flex-wrap:wrap;gap:14px;padding:16px}#image-preview .preview-heading{width:100%}#image-preview h2{font-size:25px}#image-preview .preview-controls{width:100%;justify-content:flex-end}#image-preview button{padding-inline:12px}#image-preview .preview-stage{padding:8px}#image-preview .preview-caption{padding:12px 16px;font-size:11px;max-height:22%}}
+@media(max-height:480px){#image-preview .preview-toolbar{flex-wrap:nowrap;padding:8px 12px;gap:12px}#image-preview .preview-heading{width:auto}#image-preview h2{font-size:20px}#image-preview .preview-kicker{display:none}#image-preview .preview-controls{width:auto}#image-preview .preview-caption{max-height:20%;padding:8px 12px}}
+@media print{#image-preview,.media-image-preview{display:none!important}}

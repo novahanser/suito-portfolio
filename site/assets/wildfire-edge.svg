@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+  <defs>
+    <radialGradient id="feather"><stop offset=".16" stop-color="white"/><stop offset=".6" stop-color="white" stop-opacity=".62"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient>
+    <linearGradient id="floor" x2="0" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="white"/></linearGradient>
+  </defs>
+  <ellipse fill="url(#feather)" cx="80" cy="520" rx="430" ry="505"/>
+  <ellipse fill="url(#feather)" cx="1370" cy="530" rx="450" ry="520"/>
+  <ellipse fill="url(#feather)" cx="540" cy="610" rx="390" ry="310"/>
+  <ellipse fill="url(#feather)" cx="920" cy="650" rx="330" ry="370"/>
+  <rect fill="url(#floor)" y="340" width="1440" height="260"/>
+</svg>

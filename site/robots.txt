@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://novahanser.github.io/suito-portfolio/sitemap.xml

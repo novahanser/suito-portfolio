@@ -1,0 +1,13 @@
+{
+  "name": "suito-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Suito / 翠杜 — Howard Xu's Rotaeno fan music-video portfolio",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "check": "node tools/validate.mjs site",
+    "build": "node tools/build.mjs",
+    "preview": "node tools/serve.mjs"
+  }
+}

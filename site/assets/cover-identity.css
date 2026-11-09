@@ -1,0 +1,15 @@
+/* The supplied cover sets a restrained ivory / sand / copper identity. */
+.ui-chapters{--brand-ivory:#f4e9d6;--brand-sand:#d9c8ae;--brand-copper:#e2b07a;--brand-dark:#1f1619}
+.ui-chapters .title-artwork{filter:none}
+.ui-chapters .hero-art-window{outline:1px solid #d9c8ae40;outline-offset:8px}
+.ui-chapters .hero-art figcaption{color:var(--brand-sand);font-size:12px;line-height:1.7}
+.ui-chapters .hero-art figcaption>span:first-child{color:var(--brand-ivory)}
+.ui-chapters .roman-title{color:var(--brand-sand);display:flex;align-items:center;gap:14px}
+.ui-chapters .roman-title::before{content:'';width:28px;height:1px;background:var(--brand-sand)}
+.ui-chapters .roman-title::after{content:'';width:5px;height:5px;background:var(--brand-copper);border-radius:50%}
+.ui-chapters .primary-action{background:var(--brand-ivory);border-color:var(--brand-ivory);color:var(--brand-dark)}
+.ui-chapters .site-nav a::after{height:1px;background:var(--brand-copper)}
+.ui-chapters .journal-intro{position:relative;border-top:1px solid #d9c8ae55}
+.ui-chapters .journal-intro::before{content:'';position:absolute;top:-3px;left:32px;width:5px;height:5px;background:var(--brand-copper);border-radius:50%}
+.ui-chapters .film-well{background:var(--brand-dark)}
+@media(max-width:660px){.ui-chapters .hero-art-window{outline-offset:5px}.ui-chapters .hero-art figcaption{font-size:11px;margin-top:16px}.ui-chapters .journal-intro::before{left:24px}}

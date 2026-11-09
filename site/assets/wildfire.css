@@ -1,0 +1,71 @@
+/* Only this isolated background owns flame, glow, embers and heat refraction.
+   Foreground media, titles, reading surfaces and controls never enter the renderer. */
+.ui-wildfire { position: relative; isolation: isolate; background: #0a1915; }
+.wildfire-world {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden; isolation: isolate;
+  contain: strict; pointer-events: none; background: #122a21;
+}
+[data-content-layer="foreground"] { position: relative; z-index: 1; }
+.wildfire-world > * { position: absolute; inset: 0; margin: 0; }
+.wildfire-world .atmo-forest { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.wildfire-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+.wildfire-canvas[hidden] { display:none; }
+.wildfire-world[data-gpu=active] :is(.atmo-char,.atmo-heat,.atmo-fire,.atmo-embers) { visibility:hidden; animation:none; }
+.wildfire-scene-background { transform:translateZ(0); }
+.atmo-char { background-position: center; background-size: cover; opacity: 0; }
+.atmo-heat {
+  background: radial-gradient(ellipse at 18% 100%, #ff800ba8, transparent 60%),
+    radial-gradient(ellipse at 100% 70%, #c73011b3, transparent 65%),
+    linear-gradient(0deg, #8c200cb3, #75251835 65%, transparent);
+  opacity: 0;
+}
+.wildfire-world .atmo-fire {
+  top: auto; bottom: -3px; height: min(64vh, 680px);
+  background-position: center bottom; background-size: 560px 560px; background-repeat: repeat-x;
+  mask: url('wildfire-edge.svg') center bottom / 100% 100% no-repeat;
+  opacity: 0; transform: translate3d(0, 34%, 0); transform-origin: center bottom;
+}
+.atmo-embers {
+  background:
+    radial-gradient(ellipse 2px 5px at 8% 83%, #ffd99a 40%, transparent 90%),
+    radial-gradient(ellipse 1px 4px at 18% 57%, #ffb657 40%, transparent 90%),
+    radial-gradient(ellipse 2px 3px at 28% 92%, #fff3bb 40%, transparent 90%),
+    radial-gradient(ellipse 1px 3px at 36% 69%, #ff9641 40%, transparent 90%),
+    radial-gradient(ellipse 1px 4px at 51% 85%, #ffbd76 40%, transparent 90%),
+    radial-gradient(ellipse 2px 4px at 67% 62%, #fff0a3 40%, transparent 90%),
+    radial-gradient(ellipse 1px 3px at 77% 87%, #ff9e58 40%, transparent 90%),
+    radial-gradient(ellipse 2px 5px at 91% 72%, #ffe8ac 40%, transparent 90%),
+    radial-gradient(ellipse 1px 4px at 95% 44%, #ffa644 40%, transparent 90%);
+  opacity: 0; transform: translate3d(0, 12%, 0);
+}
+.atmo-vignette {
+  background: linear-gradient(90deg, #06151266, transparent 30%, transparent 72%, #06151259),
+    linear-gradient(0deg, #0b110b33, transparent 60%, #071c164d);
+}
+
+@keyframes canopy-chars { 0%, 10% {opacity: 0} 42% {opacity: .58} 75%, 100% {opacity: .94} }
+@keyframes heat-grows { 0%, 8% {opacity: 0} 35% {opacity: .45} 75% {opacity: .9} 100% {opacity: 1} }
+@keyframes fire-rises {
+  0%, 16% {opacity: 0; transform: translate3d(0, 34%, 0)}
+  40% {opacity: .32; transform: translate3d(0, 20%, 0)}
+  70% {opacity: .72; transform: translate3d(0, 4%, 0)}
+  100% {opacity: .82; transform: translate3d(0, -3%, 0)}
+}
+@keyframes embers-rise {
+  0%, 12% {opacity: 0; transform: translate3d(0, 12%, 0)}
+  36% {opacity: .5; transform: translate3d(0, -1%, 0)}
+  75% {opacity: .85; transform: translate3d(0, -20%, 0)}
+  100% {opacity: 1; transform: translate3d(0, -32%, 0)}
+}
+@supports (animation-timeline: scroll()) {
+  .wildfire-native .atmo-char { animation: canopy-chars auto linear both; animation-timeline: scroll(root block); }
+  .wildfire-native .atmo-heat { animation: heat-grows auto linear both; animation-timeline: scroll(root block); }
+  .wildfire-native .atmo-fire { animation: fire-rises auto linear both; animation-timeline: scroll(root block); }
+  .wildfire-native .atmo-embers { animation: embers-rise auto linear both; animation-timeline: scroll(root block); }
+}
+.wildfire-off :is(.atmo-char,.atmo-heat,.atmo-fire,.atmo-embers) { opacity: 0 !important; animation: none !important; }
+.wildfire-lite :is(.atmo-fire,.atmo-embers) { display: none; }
+
+
+@media(prefers-reduced-motion:reduce){.ui-wildfire :is(.atmo-fire,.atmo-embers){display:none}}
+@media print{.wildfire-world{display:none}}
